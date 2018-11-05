@@ -24,13 +24,15 @@ export default StyleSheet.create({
   },
   tooltip: {
     position: "absolute",
-    paddingTop: 15,
+    paddingTop: 20,
     paddingHorizontal: 15,
     backgroundColor: "#2276ff",
     borderRadius: 3,
     overflow: "hidden"
   },
-  tooltipText: {},
+  tooltipText: {
+    color: "#fff"
+  },
   tooltipContainer: {
     flex: 1
   },
@@ -59,7 +61,7 @@ export default StyleSheet.create({
     padding: 10
   },
   buttonText: {
-    color: "#27ae60"
+    color: "#fff"
   },
   bottomBar: {
     marginTop: 10,

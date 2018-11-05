@@ -17,6 +17,11 @@ type Props = {
   currentStep: Step
 };
 
+const handleBoldText = (str, find) => {
+  var regExp = new RegExp(find, "g");
+  return str.replace(re, <Text style={{ fontWeight: "bold" }}>{find}</Text>);
+};
+
 const Tooltip = ({
   isFirstStep,
   isLastStep,
@@ -28,7 +33,7 @@ const Tooltip = ({
   <View>
     <View style={styles.tooltipContainer}>
       <Text testID="stepDescription" style={styles.tooltipText}>
-        {currentStep.text}
+        {handleBoldText(currentStep.text, currentStep.name)}
       </Text>
     </View>
     <View style={[styles.bottomBar]}>
