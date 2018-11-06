@@ -7,6 +7,7 @@ import {
   NativeModules,
   Modal,
   StatusBar,
+  TouchableWithoutFeedback,
   Platform
 } from "react-native";
 import Tooltip from "./Tooltip";
@@ -119,7 +120,7 @@ class CopilotModal extends Component<Props, State> {
   async _animateMove(obj = {}): void {
     const layout = await this.measure();
     if (!this.props.androidStatusBarVisible && Platform.OS === "android") {
-      obj.top -= StatusBar.currentHeight; // eslint-disable-line no-param-reassign
+      obj.top -= 20; // eslint-disable-line no-param-reassign
     }
 
     let stepNumberLeft = obj.left - STEP_NUMBER_RADIUS;
@@ -241,6 +242,14 @@ class CopilotModal extends Component<Props, State> {
     this.props.stop();
   };
 
+  handleNextToStop = () => {
+    if (this.props.isLastStep) {
+      this.handleStop();
+    } else {
+      this.handleNext();
+    }
+  };
+
   renderMask() {
     /* eslint-disable global-require */
     const MaskComponent =
@@ -282,12 +291,12 @@ class CopilotModal extends Component<Props, State> {
           }
         ]}
       >
-        <StepNumberComponent
+        {/* <StepNumberComponent
           isFirstStep={this.props.isFirstStep}
           isLastStep={this.props.isLastStep}
           currentStep={this.props.currentStep}
           currentStepNumber={this.props.currentStepNumber}
-        />
+        /> */}
       </Animated.View>,
       <Animated.View key="arrow" style={[styles.arrow, this.state.arrow]} />,
       <Animated.View key="tooltip" style={[styles.tooltip, this.state.tooltip]}>
@@ -318,6 +327,9 @@ class CopilotModal extends Component<Props, State> {
         <View style={styles.container} onLayout={this.handleLayoutChange}>
           {contentVisible && this.renderMask()}
           {contentVisible && this.renderTooltip()}
+          <TouchableWithoutFeedback onPress={this.handleNextToStop}>
+            <View style={{ flex: 1 }} />
+          </TouchableWithoutFeedback>
         </View>
       </Modal>
     );

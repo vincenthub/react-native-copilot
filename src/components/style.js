@@ -24,7 +24,7 @@ export default StyleSheet.create({
   },
   tooltip: {
     position: "absolute",
-    paddingTop: 20,
+    // paddingTop: 20,
     paddingHorizontal: 15,
     backgroundColor: "#2276ff",
     borderRadius: 3,

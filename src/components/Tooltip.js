@@ -17,9 +17,46 @@ type Props = {
   currentStep: Step
 };
 
+const BoldText = props => (
+  <Text style={{ fontWeight: "bold" }}>{props.children}</Text>
+);
+
 const handleBoldText = (str, find) => {
-  var regExp = new RegExp(find, "g");
-  return str.replace(re, <Text style={{ fontWeight: "bold" }}>{find}</Text>);
+  if (!str.includes(find)) {
+    return <Text>{str}</Text>;
+  }
+
+  var splitStr = str.split(" ");
+  var splitFind = find.split(" ");
+  var complteStr = [];
+  var strCounter = 0;
+
+  for (var i = 0; i < splitStr.length; i++) {
+    if (strCounter < splitFind.length) {
+      if (splitStr[i] === splitFind[strCounter]) {
+        if (i === 0) {
+          complteStr.push(<BoldText>{splitFind[strCounter]}</BoldText>);
+        } else {
+          complteStr.push(<BoldText>{" " + splitFind[strCounter]}</BoldText>);
+        }
+        strCounter++;
+      } else {
+        if (i === 0) {
+          complteStr.push(<Text>{splitStr[i]}</Text>);
+        } else {
+          complteStr.push(<Text>{" " + splitStr[i]}</Text>);
+        }
+      }
+    } else {
+      if (i === 0) {
+        complteStr.push(<Text>{splitStr[i]}</Text>);
+      } else {
+        complteStr.push(<Text>{" " + splitStr[i]}</Text>);
+      }
+    }
+  }
+
+  return <Text>{complteStr}</Text>;
 };
 
 const Tooltip = ({
@@ -30,14 +67,14 @@ const Tooltip = ({
   handleStop,
   currentStep
 }: Props) => (
-  <View>
+  <View style={{ marginTop: 10 }}>
     <View style={styles.tooltipContainer}>
       <Text testID="stepDescription" style={styles.tooltipText}>
         {handleBoldText(currentStep.text, currentStep.name)}
       </Text>
     </View>
     <View style={[styles.bottomBar]}>
-      {!isLastStep ? (
+      {/* {!isLastStep ? (
         <TouchableOpacity onPress={handleStop}>
           <Button>Skip</Button>
         </TouchableOpacity>
@@ -55,7 +92,7 @@ const Tooltip = ({
         <TouchableOpacity onPress={handleStop}>
           <Button>Finish</Button>
         </TouchableOpacity>
-      )}
+      )} */}
     </View>
   </View>
 );
