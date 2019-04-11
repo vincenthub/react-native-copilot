@@ -1,7 +1,7 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import type { CopilotContext } from '../types';
+import type { CopilotContext } from "../types";
 
 type Props = {
   name: string,
@@ -14,7 +14,7 @@ type Props = {
 
 class ConnectedCopilotStep extends Component<Props> {
   static defaultProps = {
-    active: true,
+    active: true
   };
 
   componentDidMount() {
@@ -47,7 +47,7 @@ class ConnectedCopilotStep extends Component<Props> {
       text: this.props.text,
       order: this.props.order,
       target: this,
-      wrapper: this.wrapper,
+      wrapper: this.wrapper
     });
   }
 
@@ -56,21 +56,31 @@ class ConnectedCopilotStep extends Component<Props> {
   }
 
   measure() {
-    if (typeof __TEST__ !== 'undefined' && __TEST__) { // eslint-disable-line no-undef
-      return new Promise(resolve => resolve({
-        x: 0, y: 0, width: 0, height: 0,
-      }));
+    if (typeof __TEST__ !== "undefined" && __TEST__) {
+      // eslint-disable-line no-undef
+      return new Promise(resolve =>
+        resolve({
+          x: 0,
+          y: 0,
+          width: 0,
+          height: 0
+        })
+      );
     }
 
     return new Promise((resolve, reject) => {
       const measure = () => {
         // Wait until the wrapper element appears
-        if (this.wrapper.measure) {
+        if (this.wrapper && this.wrapper.measure) {
           this.wrapper.measure(
-            (ox, oy, width, height, x, y) => resolve({
-              x, y, width, height,
-            }),
-            reject,
+            (ox, oy, width, height, x, y) =>
+              resolve({
+                x,
+                y,
+                width,
+                height
+              }),
+            reject
           );
         } else {
           requestAnimationFrame(measure);
@@ -83,8 +93,10 @@ class ConnectedCopilotStep extends Component<Props> {
 
   render() {
     const copilot = {
-      ref: (wrapper) => { this.wrapper = wrapper; },
-      onLayout: () => { }, // Android hack
+      ref: wrapper => {
+        this.wrapper = wrapper;
+      },
+      onLayout: () => {} // Android hack
     };
 
     return React.cloneElement(this.props.children, { copilot });
